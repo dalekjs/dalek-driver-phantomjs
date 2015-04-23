@@ -1,12 +1,12 @@
 {
   "name": "skaro-browser-phantomjs",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Browser Binding for PhantomJS providing simple process controll to start WebDriver instance",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
- 	"author": "Sebastian Golasch <public@asciidisco.com> (http://asciidisco.com)"
+ 	"author": "Sebastian Golasch <public@asciidisco.com> (http://asciidisco.com)",
 	"contributors": [
     "Rodney Rehm <mail+github@rodneyrehm.de> (http://rodneyrehm.de)"
   ],
