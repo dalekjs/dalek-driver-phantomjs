@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "expand-home-dir": "0.0.2",
     "phantomjs2": "^2.0.0",
     "portscanner": "^1.0.0"
   }
