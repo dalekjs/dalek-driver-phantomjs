@@ -8,6 +8,8 @@ var expandHomeDir = require('expand-home-dir');
 var phantomPath = require('phantomjs2').path;
 
 var defaults = {
+  // name of the browser instance
+  name: 'PhantomJS',
   // the host (actually "network interface") to expose WebDriver on
   host: '127.0.0.1',
   // all ports are negotiated, but the user might want to use a specific range
@@ -132,6 +134,7 @@ Browser.prototype._watchStartupOut = function(success, error, data) {
     this._stopListening();
     success({
       wd: {
+        browserName: this.options.browserName,
         host: this.options.host,
         port: this.options.port,
       }

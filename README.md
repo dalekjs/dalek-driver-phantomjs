@@ -2,7 +2,7 @@
 
 > guineapig for skaro browser configuration
 
-Skaro Browser Binding for [PhantomJS 2](http://phantomjs.org/) providing an API to control the Browser/WebDriver process, buggyfill the browser's WebDriver capabilities, as well as provide an easy means to install the necessary binaries etc.
+Browser Binding for [PhantomJS 2](http://phantomjs.org/) providing an API to control the Browser/WebDriver process, buggyfill the browser's WebDriver capabilities, as well as provide an easy means to install the necessary binaries etc.
 
 * [PhantomJS Command Line Interface](http://phantomjs.org/api/command-line.html)
 
@@ -31,7 +31,7 @@ var browser = new Browser({
 });
 
 function success(data) {
-  console.log("Started browser, WebDriver available at", data.wd.host, data.wd.port);
+  console.log("Started browser, WebDriver available at", data.wd);
 }
 
 // callback invoked when the process could not be started
@@ -56,3 +56,30 @@ browser.stop(function() {
 browser.kill();
 ```
 
+a full integration using [WD.js](https://github.com/admc/wd) could look like
+
+```js
+var WD = require('wd');
+var Browser = require('skaro-browser-phantomjs');
+
+var wd = wd.promiseChainRemote();
+var browser = new Browser({
+  name: 'Phantom',
+  args: [
+    '--local-to-remote-url-access=true'
+  ]
+});
+
+browser.start(function(options) {
+  // initialize WD client from configuration options
+  // provided by the browser driver
+  wd.remote(options.wd).then(function() {
+    // some fun with WebDriver
+  });
+}, console.log.bind(console));
+
+// stop WD client, then service and browser
+wd.quit().then(function() {
+  browser.stop();
+});
+```
