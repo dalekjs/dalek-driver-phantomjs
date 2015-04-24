@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
- 	"author": "Sebastian Golasch <public@asciidisco.com> (http://asciidisco.com)",
-	"contributors": [
+  "author": "Sebastian Golasch <public@asciidisco.com> (http://asciidisco.com)",
+  "contributors": [
     "Rodney Rehm <mail+github@rodneyrehm.de> (http://rodneyrehm.de)"
   ],
   "license": "MIT",
@@ -15,5 +15,8 @@
     "expand-home-dir": "0.0.2",
     "phantomjs2": "^2.0.0",
     "portscanner": "^1.0.0"
+  },
+  "devDependencies": {
+    "wd": "^0.3.11"
   }
 }
