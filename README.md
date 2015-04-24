@@ -1,8 +1,8 @@
-# skaro-browser-phantomjs - Browser/WebDriver process control
+# dalek-driver-phantomjs - Browser/WebDriver process control
 
-> guineapig for skaro browser configuration
+Browser Driver for [PhantomJS 2](http://phantomjs.org/) providing an API to control the Browser/WebDriver process, buggyfill the browser's WebDriver capabilities, as well as provide an easy means to install the necessary binaries etc.
 
-Browser Binding for [PhantomJS 2](http://phantomjs.org/) providing an API to control the Browser/WebDriver process, buggyfill the browser's WebDriver capabilities, as well as provide an easy means to install the necessary binaries etc.
+## Browser / Driver Documentation
 
 * [PhantomJS Command Line Interface](http://phantomjs.org/api/command-line.html)
 
@@ -11,7 +11,7 @@ Browser Binding for [PhantomJS 2](http://phantomjs.org/) providing an API to con
 ## API Documentation
 
 ```js
-var Browser = require('skaro-browser-phantomjs');
+var Browser = require('dalek-driver-phantomjs');
 var browser = new Browser({
   // path to binary
   // default: provided by phantomjs
@@ -60,7 +60,7 @@ a full integration using [WD.js](https://github.com/admc/wd) could look like
 
 ```js
 var WD = require('wd');
-var Browser = require('skaro-browser-phantomjs');
+var Browser = require('dalek-driver-phantomjs');
 
 var wd = wd.promiseChainRemote();
 var browser = new Browser({
