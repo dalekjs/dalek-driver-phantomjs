@@ -4,7 +4,8 @@
   "description": "Browser Binding for PhantomJS providing simple process controll to start WebDriver instance",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "istanbul cover node_modules/mocha/bin/_mocha -- -R spec --timeout 15000 test/spec.*.js",
+    "continous-test": "watch \"npm test\" test"
   },
   "author": "Sebastian Golasch <public@asciidisco.com> (http://asciidisco.com)",
   "contributors": [
@@ -17,6 +18,10 @@
     "portscanner": "^1.0.0"
   },
   "devDependencies": {
+    "chai": "^2.2.0",
+    "istanbul": "^0.3.13",
+    "mocha": "^2.2.4",
+    "watch": "^0.16.0",
     "wd": "^0.3.11"
   }
 }

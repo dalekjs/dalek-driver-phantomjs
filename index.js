@@ -129,7 +129,6 @@ Browser.prototype._stopListening = function() {
 
 Browser.prototype._watchStartupOut = function(success, error, data) {
   var _data = String(data);
-
   if (_data.indexOf('GhostDriver - Main - running') !== -1) {
     this._stopListening();
     success({
