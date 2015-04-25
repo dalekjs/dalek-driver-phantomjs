@@ -180,9 +180,9 @@ describe('#_handleProcessFailure:', function handleProcessFailure() {
 });
 
 describe('#_watchStartupOut scans stdout', function watchStartupOutScansStdout() {
-  var browser, ee;
+  var browser;
+  var ee;
   var EE = require('events').EventEmitter;
-
 
   beforeEach(function watchStartupOutScansStdoutBeforeEach() {
     ee = new EE();
@@ -229,9 +229,9 @@ describe('#_watchStartupOut scans stdout', function watchStartupOutScansStdout()
   });
 });
 
-
 describe('#stop shuts down the processes', function stopShutdown() {
-  var browser, ee;
+  var browser;
+  var ee;
   var EE = require('events').EventEmitter;
 
   beforeEach(function stopShutdownBeforeEach() {

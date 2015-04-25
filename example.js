@@ -18,7 +18,6 @@ function stop() {
     });
   });
 }
-
 function haveSomeFunWithWebDriver() {
   // open a website
   wd.get('https://google.com')

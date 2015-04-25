@@ -18,7 +18,6 @@ var defaults = {
 };
 
 function noop() {}
-
 function Browser(options) {
   this.options = options || {};
   Object.keys(defaults).forEach(function(key) {
@@ -30,23 +29,19 @@ function Browser(options) {
   if (!Array.isArray(this.options.portRange)) {
     throw new TypeError('option "portRange" must be a range: [min, max]');
   }
-
   if (!Array.isArray(this.options.args)) {
     this.options.args = [this.options.args];
   }
-
   if (this.options.binary !== phantomPath) {
     this.options.binary = expandHomeDir(this.options.binary);
   }
 }
-
 Browser.prototype.capability = capability;
 
 Browser.prototype.start = function(success, error, failure) {
   if (this.process) {
     throw new Error('Process already running');
   }
-
   this._findPort(function(port) {
     this.options.port = port;
 
@@ -64,7 +59,6 @@ Browser.prototype.stop = function(callback) {
   if (!this.process) {
     return;
   }
-
   this.process.removeListener('error', this._handleProcessFailure);
   this.process.removeListener('close', this._handleProcessFailure);
 
@@ -80,7 +74,6 @@ Browser.prototype.kill = function() {
   if (!this.process) {
     return;
   }
-
   this.process.kill('SIGKILL');
   this.process = null;
 };
@@ -94,7 +87,6 @@ Browser.prototype._findPort = function(success, error) {
       if (err) {
         return error(new Error('No sufficient port available'));
       }
-
       success(port);
     }
   );
