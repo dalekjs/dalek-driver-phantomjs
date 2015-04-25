@@ -12,24 +12,20 @@ var Events = require('events');
 var http = require('http');
 
 // helper fns
-var noop = function (){};
-var _wrapConstructor = function (FN, data) {
+var noop = function noop() {};
+var _wrapConstructor = function _wrapConstructor(FN, data) {
   return function _wrapperConstructor() {
     new FN(data);
   };
 };
-var _wrapFn = function (fn, data) {
+var _wrapFn = function _wrapFn(fn, data) {
   return function _wrapperFn() {
     fn(data);
   };
 };
 
 describe('Can init without config', function initWithoutConfig() {
-  var browser;
-
-  before(function initWithoutConfigBefore() {
-    browser = new Browser();
-  });
+  var browser = new Browser();
 
   after(function initWithoutConfigAfter() {
     browser.kill();
@@ -118,6 +114,9 @@ describe('#_findPort: No sufficiant port', function nonSufficientPort() {
 describe('#_watchStartupErr:', function watchStartupErr() {
   var browser = new Browser();
   browser.start();
+  browser._stopListening = noop;
+  browser.kill = noop;
+
   it('should return error when error code is given', function watchStartupErrShouldError() {
     var code = 5;
     var ecb = function watchStartupErrShouldErrorCb(error) {
@@ -132,11 +131,13 @@ describe('#_watchStartupErr:', function watchStartupErr() {
 describe('#_handleStartupClose:', function handleStartupClose() {
   var browser = new Browser();
   browser.start();
+  browser._stopListening = noop;
+  browser.kill = noop;
   it('should return error when error code is given', function handleStartupCloseShouldError() {
     var code = 5;
     var ecb = function handleStartupCloseShouldErrorCb(error) {
       expect(error).to.be.an.instanceof(Error);
-      expect(error.message).to.have.string('Process closed with exit code:');
+      expect(error.message).to.have.string('Process closed with code:');
       expect(error.message).to.have.string(code);
     };
     browser._handleStartupClose(noop, ecb, code);
@@ -146,6 +147,9 @@ describe('#_handleStartupClose:', function handleStartupClose() {
 describe('#_handleStartupError:', function handleStartupError() {
   var browser = new Browser();
   browser.start();
+  browser._stopListening = noop;
+  browser.kill = noop;
+
   it('should return error if error message is given', function handleStartupErrorIfMsgGiven() {
     var err = 'Random error';
     var ecb = function handleStartupErrorIfMsgGivenCb(error) {
@@ -245,7 +249,7 @@ describe('#stop shuts down the processes', function stopShutdown() {
   });
 
   it('should terminate the process gracefully', function stopShutdownTerminateGraceful() {
-    browser.process.kill = function (cmd) {
+    browser.process.kill = function _kill(cmd) {
       expect(cmd).to.equal('SIGTERM');
     };
     browser.stop(noop);
@@ -271,7 +275,6 @@ describe('#stop shuts down the processes', function stopShutdown() {
     browser.stop(cb);
     browser.process.emit('close');
   });
-
 });
 
 describe('Binary can timeout', function binaryTimeout() {
@@ -294,17 +297,20 @@ describe('Binary can timeout', function binaryTimeout() {
 describe('Webdriver interface should be enabled', function webdriverInterface() {
   var browser = new Browser();
   it('should be able to do a webdriver request', function webdriverInterfaceRequest(done) {
+    var _test = function webdriverInterfaceRequestDataCb(data) {
+      var _data = JSON.parse(String(data));
+      expect(_data).to.be.an('object');
+      expect(_data).to.have.all.keys(['sessionId', 'status', 'value']);
+      expect(_data.value).to.have.all.keys(['build', 'os']);
+      expect(_data.value.build).to.have.any.keys('version');
+      expect(_data.value.os).to.have.all.keys(['name', 'version', 'arch']);
+      browser.stop(done);
+    };
+
     browser.start(function webdriverInterfaceRequestStartCb(config) {
-      http.get('http://' + config.wd.host + ':' + config.wd.port + '/status', function webdriverInterfaceRequestCb(res) {
-        res.on('data', function webdriverInterfaceRequestDataCb(data) {
-          var _data = JSON.parse(String(data));
-          expect(_data).to.be.an('object');
-          expect(_data).to.have.all.keys(['sessionId', 'status', 'value']);
-          expect(_data.value).to.have.all.keys(['build', 'os']);
-          expect(_data.value.build).to.have.any.keys('version');
-          expect(_data.value.os).to.have.all.keys(['name', 'version', 'arch']);
-          browser.stop(done);
-        });
+      var statusUrl = 'http://' + config.wd.host + ':' + config.wd.port + '/status';
+      http.get(statusUrl, function webdriverInterfaceRequestCb(res) {
+        res.on('data', _test);
       });
     }, noop, noop);
   });
