@@ -14,7 +14,7 @@
   "license": "MIT",
   "dependencies": {
     "expand-home-dir": "0.0.2",
-    "phantomjs": "cloakedninjas/phantomjs",
+    "phantomjs": "latest",
     "portscanner": "^1.0.0"
   },
   "devDependencies": {
