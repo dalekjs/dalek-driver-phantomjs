@@ -2,6 +2,12 @@
 
 Browser Driver for [PhantomJS 2](http://phantomjs.org/) providing an API to control the Browser/WebDriver process, buggyfill the browser's WebDriver capabilities, as well as provide an easy means to install the necessary binaries etc.
 
+[![Build Status](https://travis-ci.org/dalekjs/dalek-driver-phantomjs.svg?branch=master)](https://travis-ci.org/dalekjs/dalek-driver-phantomjs)
+
+[![Code Climate](https://codeclimate.com/github/dalekjs/dalek-driver-phantomjs/badges/gpa.svg)](https://codeclimate.com/github/dalekjs/dalek-driver-phantomjs)
+
+[![Test Coverage](https://codeclimate.com/github/dalekjs/dalek-driver-phantomjs/badges/coverage.svg)](https://codeclimate.com/github/dalekjs/dalek-driver-phantomjs)
+
 ## Browser / Driver Documentation
 
 * [PhantomJS Command Line Interface](http://phantomjs.org/api/command-line.html)
