@@ -4,11 +4,12 @@
   "description": "Browser Driver for PhantomJS providing simple process control to start WebDriver instance",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint **/*.js && jscs **/*.js",
+    "lint": "eslint {*/*.js,*.js} && jscs {*/*.js,*.js}",
     "pretest": "npm run lint",
     "test": "istanbul cover node_modules/mocha/bin/_mocha -- -R spec --timeout 15000 test/spec.*.js",
     "continous-test": "watch \"npm test\" test",
-    "collect-coverage": "codeclimate < coverage/lcov.info"
+    "collect-coverage": "codeclimate < coverage/lcov.info",
+    "format": "for f in {*/*.js,*.js}; do jsfmt --rewrite $f < $f; done"
   },
   "config": {
     "ghooks": {
@@ -35,6 +36,7 @@
     "ghooks": "^0.3.2",
     "istanbul": "^0.3.13",
     "jscs": "^1.12.0",
+    "jsinspect": "^0.5.0",
     "mocha": "^2.2.4",
     "watch": "^0.16.0",
     "wd": "^0.3.11"
