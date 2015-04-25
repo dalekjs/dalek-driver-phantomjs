@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "istanbul cover node_modules/mocha/bin/_mocha -- -R spec --timeout 15000 test/spec.*.js",
-    "continous-test": "watch \"npm test\" test"
+    "continous-test": "watch \"npm test\" test",
+    "collect-coverage": "codeclimate < coverage/lcov.info"
   },
   "author": "Sebastian Golasch <public@asciidisco.com> (http://asciidisco.com)",
   "contributors": [
@@ -19,6 +20,7 @@
   },
   "devDependencies": {
     "chai": "^2.2.0",
+    "codeclimate-test-reporter": "0.0.4",
     "istanbul": "^0.3.13",
     "mocha": "^2.2.4",
     "watch": "^0.16.0",

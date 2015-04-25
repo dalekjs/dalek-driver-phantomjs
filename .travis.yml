@@ -7,6 +7,8 @@ before_install:
 - tar -xjf phantomjs-2.0.0-ubuntu-12.04.tar.bz2
 - sudo rm -rf /usr/local/phantomjs/bin/phantomjs
 - sudo mv phantomjs /usr/local/phantomjs/bin/phantomjs
+after_success:
+- 'npm run collect-coverage'
 env:
   global:
     secure: cXVTItMFlidG004MTaH/pPmG6xWSooP4UmqiA0e5dzvmBIVhI42Y3rolcI+QOpC2L3gJ45XI2mlzn+t9NOOaFkUZFf98+j4HEKZutwuUvl4tZFaenFzjULXvJl7AlOoH5ZSC3H3JQEe5dPGbPdhHLLAIhNmx6iwewsBGLjZjCi8=
