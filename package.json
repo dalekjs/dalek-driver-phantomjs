@@ -4,7 +4,7 @@
   "description": "Browser Driver for PhantomJS providing simple process control to start WebDriver instance",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint **/*.js",
+    "lint": "eslint **/*.js && jscs **/*.js",
     "pretest": "npm run lint",
     "test": "istanbul cover node_modules/mocha/bin/_mocha -- -R spec --timeout 15000 test/spec.*.js",
     "continous-test": "watch \"npm test\" test",

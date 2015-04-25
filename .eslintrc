@@ -24,7 +24,7 @@
     "no-multiple-empty-lines": [1, {max: 2}],
     "operator-assignment": [2, "always"],
     "operator-linebreak": [2, "before"],
-    "padded-blocks": [2, "never"],
+    "padded-blocks": [1, "never"],
     "quote-props": [2, "as-needed"],
     "semi-spacing": [2, {"before": false, "after": true}],
     "sort-vars": [1, {"ignoreCase": false}],
