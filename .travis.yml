@@ -1,5 +1,6 @@
 language: node_js
 node_js:
-  - "0.12"
-  - "0.10"
-  - "iojs"
+- '0.10'
+env:
+  global:
+    secure: cXVTItMFlidG004MTaH/pPmG6xWSooP4UmqiA0e5dzvmBIVhI42Y3rolcI+QOpC2L3gJ45XI2mlzn+t9NOOaFkUZFf98+j4HEKZutwuUvl4tZFaenFzjULXvJl7AlOoH5ZSC3H3JQEe5dPGbPdhHLLAIhNmx6iwewsBGLjZjCi8=
