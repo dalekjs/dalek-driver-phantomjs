@@ -1,6 +1,5 @@
 'use strict';
 
-var fs = require('fs');
 var spawn = require('child_process').spawn;
 var portscanner = require('portscanner');
 var expandHomeDir = require('expand-home-dir');
@@ -67,7 +66,7 @@ Browser.prototype.stop = function(callback) {
   this.process.removeListener('error', this._handleProcessFailure);
   this.process.removeListener('close', this._handleProcessFailure);
 
-  this.process.on('close', function(code, signal) {
+  this.process.on('close', function(/*code, signal*/) {
     this.process = null;
     callback && callback();
   }.bind(this));
