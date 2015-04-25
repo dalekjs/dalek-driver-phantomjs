@@ -4,9 +4,19 @@
   "description": "Browser Driver for PhantomJS providing simple process control to start WebDriver instance",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint **/*.js",
+    "pretest": "npm run lint",
     "test": "istanbul cover node_modules/mocha/bin/_mocha -- -R spec --timeout 15000 test/spec.*.js",
     "continous-test": "watch \"npm test\" test",
     "collect-coverage": "codeclimate < coverage/lcov.info"
+  },
+  "config": {
+    "ghooks": {
+      "pre-commit": "npm run lint",
+      "pre-push": "npm test",
+      "post-merge": "npm install",
+      "post-rewrite": "npm install"
+    }
   },
   "author": "Sebastian Golasch <public@asciidisco.com> (http://asciidisco.com)",
   "contributors": [
@@ -20,8 +30,11 @@
   },
   "devDependencies": {
     "chai": "^2.2.0",
-    "codeclimate-test-reporter": "0.0.4",
+    "codeclimate-test-reporter": "^0.0.4",
+    "eslint": "^0.20.0",
+    "ghooks": "^0.3.2",
     "istanbul": "^0.3.13",
+    "jscs": "^1.12.0",
     "mocha": "^2.2.4",
     "watch": "^0.16.0",
     "wd": "^0.3.11"
