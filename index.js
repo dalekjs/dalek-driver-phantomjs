@@ -17,10 +17,10 @@ var defaults = {
   args: [],
 };
 
-function noop() {}
-function Browser(options) {
+var noop = function noop() {};
+var Browser = function Browser(options) {
   this.options = options || {};
-  Object.keys(defaults).forEach(function(key) {
+  Object.keys(defaults).forEach(function _mergeDefaultOptions(key) {
     if (this.options[key] === undefined) {
       this.options[key] = defaults[key];
     }
@@ -35,14 +35,15 @@ function Browser(options) {
   if (this.options.binary !== phantomPath) {
     this.options.binary = expandHomeDir(this.options.binary);
   }
-}
+};
+
 Browser.prototype.capability = capability;
 
-Browser.prototype.start = function(success, error, failure) {
+Browser.prototype.start = function start(success, error, failure) {
   if (this.process) {
     throw new Error('Process already running');
   }
-  this._findPort(function(port) {
+  this._findPort(function _findPort(port) {
     this.options.port = port;
 
     var args = [
@@ -55,14 +56,14 @@ Browser.prototype.start = function(success, error, failure) {
   }.bind(this), error);
 };
 
-Browser.prototype.stop = function(callback) {
+Browser.prototype.stop = function stop(callback) {
   if (!this.process) {
     return;
   }
   this.process.removeListener('error', this._handleProcessFailure);
   this.process.removeListener('close', this._handleProcessFailure);
 
-  this.process.on('close', function(/*code, signal*/) {
+  this.process.on('close', function processClose(/*code, signal*/) {
     this.process = null;
     callback && callback();
   }.bind(this));
@@ -70,7 +71,7 @@ Browser.prototype.stop = function(callback) {
   this.process.kill('SIGTERM');
 };
 
-Browser.prototype.kill = function() {
+Browser.prototype.kill = function kill() {
   if (!this.process) {
     return;
   }
@@ -78,7 +79,7 @@ Browser.prototype.kill = function() {
   this.process = null;
 };
 
-Browser.prototype._findPort = function(success, error) {
+Browser.prototype._findPort = function _findPort(success, error) {
   portscanner.findAPortNotInUse(
     this.options.portRange[0],
     this.options.portRange[1],
@@ -92,7 +93,7 @@ Browser.prototype._findPort = function(success, error) {
   );
 };
 
-Browser.prototype._startListening = function(success, error, failure) {
+Browser.prototype._startListening = function _startListening(success, error, failure) {
   this._watchStartupOut = this._watchStartupOut.bind(this, success, error);
   this._watchStartupErr = this._watchStartupErr.bind(this, success, error);
   this._handleStartupClose = this._handleStartupClose.bind(this, success, error);
@@ -104,12 +105,12 @@ Browser.prototype._startListening = function(success, error, failure) {
   this.process.stdout.on('data', this._watchStartupOut);
   this.process.stderr.on('data', this._watchStartupErr);
 
-  this._timeout = setTimeout(function() {
+  this._timeout = setTimeout(function driverNotRespondingTimeout() {
     error(new Error('GhostDriver did not respond within 5s'));
   }, 5000);
 };
 
-Browser.prototype._stopListening = function() {
+Browser.prototype._stopListening = function _stopListening() {
   clearTimeout(this._timeout);
   this.process.removeListener('close', this._handleStartupClose);
   this.process.removeListener('error', this._handleStartupError);
@@ -120,7 +121,7 @@ Browser.prototype._stopListening = function() {
   this.process.on('close', this._handleProcessFailure);
 };
 
-Browser.prototype._watchStartupOut = function(success, error, data) {
+Browser.prototype._watchStartupOut = function _watchStartupOut(success, error, data) {
   var _data = String(data);
   if (_data.indexOf('GhostDriver - Main - running') !== -1) {
     this._stopListening();
@@ -138,25 +139,25 @@ Browser.prototype._watchStartupOut = function(success, error, data) {
   }
 };
 
-Browser.prototype._watchStartupErr = function(success, error, data) {
+Browser.prototype._watchStartupErr = function _watchStartupErr(success, error, data) {
   this._stopListening();
   this.kill();
   error(new Error('Process error: ' + String(data)));
 };
 
-Browser.prototype._handleStartupClose = function(success, error, code) {
+Browser.prototype._handleStartupClose = function _handleStartupClose(success, error, code) {
   this._stopListening();
   this.kill();
   error(new Error('Process closed with code: ' + code));
 };
 
-Browser.prototype._handleStartupError = function(success, error, err) {
+Browser.prototype._handleStartupError = function _handleStartupError(success, error, err) {
   this._stopListening();
   this.kill();
   error(new Error('Unable to start "' + this.options.binary + '" (' + err + ')'));
 };
 
-Browser.prototype._handleProcessFailure = function(failure, err) {
+Browser.prototype._handleProcessFailure = function _handleProcessFailure(failure, err) {
   this.kill();
   failure(new Error('Process quit unexpectedly "' + this.options.binary + '" (' + err + ')'));
 };

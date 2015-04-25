@@ -8,42 +8,43 @@ var driver = new Driver({
   host: '127.0.1.1'
 });
 
-function stop() {
+var stop = function stop() {
   // stop the client
-  wd.quit().then(function() {
+  wd.quit().then(function quitCb() {
     // then stop the driver
-    driver.stop(function() {
+    driver.stop(function stopCb() {
       // now we're done
       console.log('bye bye');
     });
   });
-}
-function haveSomeFunWithWebDriver() {
+};
+
+var haveSomeFunWithWebDriver = function haveSomeFunWithWebDriver() {
   // open a website
   wd.get('https://google.com')
     // find all its links
     .elements('css', 'a')
     // output what ever elements() returned
-    .then(function(data) {
+    .then(function elementsSuccessCb(data) {
       console.log('success', JSON.stringify(data, null, 2));
-    }, function(data) {
+    }, function elementsErrorCb(data) {
       console.log('error', JSON.stringify(data, null, 2));
     })
     // stop WD and the driver
     .then(stop)
     // woopsi
-    .catch(function(error) {
+    .catch(function shutdownFailure(error) {
       console.error('failure', error);
       stop();
     })
     // promises…
     .done();
-}
+};
 
 // start the driver
 driver.start(
   // callback invoked when driver is started
-  function(options) {
+  function startCb(options) {
     // load, connect and initialize WD.js
     wd = require('wd').promiseChainRemote(options.wd);
     wd.init(options.wd).then(
