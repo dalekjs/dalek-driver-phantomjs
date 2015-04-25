@@ -7,7 +7,7 @@ var expect = chai.expect;
 
 // file to test
 var Browser = require('../index');
-var phantomPath = require('phantomjs').path;
+var phantomPath = require('phantomjs2').path;
 var Events = require('events');
 var http = require('http');
 
