@@ -4,12 +4,12 @@
   "description": "Browser Driver for PhantomJS providing simple process control to start WebDriver instance",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint {*/*.js,*.js} && jscs {*/*.js,*.js}",
+    "format": "for f in {*/*.js,*.js}; do jsfmt --rewrite $f < $f; done && jscs --fix {*/*.js,*.js}",
+    "lint": "eslint {*/*.js,*.js} && jscs {*/*.js,*.js} && jsinspect {*/*.js,*.js}",
     "pretest": "npm run lint",
     "test": "istanbul cover node_modules/mocha/bin/_mocha -- -R spec --timeout 15000 test/spec.*.js",
-    "continous-test": "watch \"npm test\" test",
-    "collect-coverage": "codeclimate < coverage/lcov.info",
-    "format": "for f in {*/*.js,*.js}; do jsfmt --rewrite $f < $f; done && jscs --fix {*/*.js,*.js}"
+    "watch": "watch -p \"{*/*.js,*.js} \" -c \"npm test\"",
+    "collect-coverage": "codeclimate < coverage/lcov.info"
   },
   "config": {
     "ghooks": {
@@ -27,6 +27,7 @@
   "dependencies": {
     "expand-home-dir": "0.0.2",
     "phantomjs": "latest",
+    "portfinder": "^0.4.0",
     "portscanner": "^1.0.0"
   },
   "devDependencies": {
@@ -38,7 +39,7 @@
     "jscs": "^1.12.0",
     "jsinspect": "^0.5.0",
     "mocha": "^2.2.4",
-    "watch": "^0.16.0",
+    "watch-cli": "^0.2.1",
     "wd": "^0.3.11"
   }
 }
