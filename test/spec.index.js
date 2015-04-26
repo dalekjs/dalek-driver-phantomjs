@@ -5,11 +5,13 @@ var chai = require('chai');
 chai.config.includeStack = true;
 var expect = chai.expect;
 
-// file to test
-var Browser = require('../index');
+// helper
 var phantomPath = require('phantomjs').path;
 var Events = require('events');
 var http = require('http');
+
+// file to test
+var Browser = require('../index');
 
 // helper fns
 var noop = function noop() {};
@@ -22,6 +24,25 @@ var _wrapFn = function _wrapFn(fn, data) {
   return function _wrapperFn() {
     fn(data);
   };
+};
+var _checkForError = function _checkForError(ErrorInst, message, error) {
+  expect(error).to.be.an.instanceof(ErrorInst);
+  if (Array.isArray(message)) {
+    message.forEach(function expandMessages(msg) {
+      expect(error.message).to.have.string(msg);
+    });
+  } else {
+    expect(error.message).to.have.string(message);
+  }
+};
+var _mockProcessObject = function _mockProcessObject() {
+  var ret = {};
+  var ee = new Events.EventEmitter();
+  ret = ee;
+  ret.kill = noop;
+  ret.stdout = ee;
+  ret.stderr = ee;
+  return ret;
 };
 
 describe('Can init without config', function initWithoutConfig() {
@@ -103,11 +124,8 @@ describe('#_findPort: No sufficiant port', function nonSufficientPort() {
   var browser = new Browser(config);
   browser.start();
   it('should return error', function nonSufficientPortErrors() {
-    var ecb = function nonSufficientPortErrorsCb(error) {
-      expect(error).to.be.an.instanceof(Error);
-      expect(error.message).to.have.string('No sufficient port available');
-    };
-    browser._findPort(noop, ecb);
+    var msg = 'No sufficient port available';
+    browser._findPort(noop, _checkForError.bind(this, Error, msg));
   });
 });
 
@@ -119,12 +137,8 @@ describe('#_watchStartupErr:', function watchStartupErr() {
 
   it('should return error when error code is given', function watchStartupErrShouldError() {
     var code = 5;
-    var ecb = function watchStartupErrShouldErrorCb(error) {
-      expect(error).to.be.an.instanceof(Error);
-      expect(error.message).to.have.string('Process error:');
-      expect(error.message).to.have.string(code);
-    };
-    browser._watchStartupErr(noop, ecb, code);
+    var msg = ['Process error:', code];
+    browser._watchStartupErr(noop, _checkForError.bind(this, Error, msg), code);
   });
 });
 
@@ -135,12 +149,8 @@ describe('#_handleStartupClose:', function handleStartupClose() {
   browser.kill = noop;
   it('should return error when error code is given', function handleStartupCloseShouldError() {
     var code = 5;
-    var ecb = function handleStartupCloseShouldErrorCb(error) {
-      expect(error).to.be.an.instanceof(Error);
-      expect(error.message).to.have.string('Process closed with code:');
-      expect(error.message).to.have.string(code);
-    };
-    browser._handleStartupClose(noop, ecb, code);
+    var msg = 'Process closed with code: ' + code;
+    browser._handleStartupClose(noop, _checkForError.bind(this, Error, msg), code);
   });
 });
 
@@ -152,12 +162,8 @@ describe('#_handleStartupError:', function handleStartupError() {
 
   it('should return error if error message is given', function handleStartupErrorIfMsgGiven() {
     var err = 'Random error';
-    var ecb = function handleStartupErrorIfMsgGivenCb(error) {
-      expect(error).to.be.an.instanceof(Error);
-      expect(error.message).to.have.string('Unable to start');
-      expect(error.message).to.have.string('(' + err + ')');
-    };
-    browser._handleStartupError(noop, ecb, err);
+    var msg = ['Unable to start', '(' + err + ')'];
+    browser._handleStartupError(noop, _checkForError.bind(this, Error, msg), err);
   });
 });
 
@@ -170,28 +176,18 @@ describe('#_handleProcessFailure:', function handleProcessFailure() {
 
   it('should return error', function handleProcessFailureErrors() {
     var err = 'Random error';
-    var cb = function handleProcessFailureCb(error) {
-      expect(error).to.be.an.instanceof(Error);
-      expect(error.message).to.have.string('Process quit unexpectedly');
-      expect(error.message).to.have.string('(' + err + ')');
-    };
-    browser._handleProcessFailure(cb, err);
+    var msg = ['Process quit unexpectedly', '(' + err + ')'];
+    browser._handleProcessFailure(_checkForError.bind(this, Error, msg), err);
   });
 });
 
 describe('#_watchStartupOut scans stdout', function watchStartupOutScansStdout() {
   var browser;
-  var ee;
-  var EE = require('events').EventEmitter;
 
   beforeEach(function watchStartupOutScansStdoutBeforeEach() {
-    ee = new EE();
     browser = new Browser();
     // mock the process object
-    browser.process = ee;
-    browser.process.kill = noop;
-    browser.process.stdout = ee;
-    browser.process.stderr = ee;
+    browser.process = _mockProcessObject();
   });
 
   it('should return error with error data', function watchStartupOutScansStdoutWithoutData() {
@@ -231,16 +227,10 @@ describe('#_watchStartupOut scans stdout', function watchStartupOutScansStdout()
 
 describe('#stop shuts down the processes', function stopShutdown() {
   var browser;
-  var ee;
-  var EE = require('events').EventEmitter;
 
   beforeEach(function stopShutdownBeforeEach() {
-    ee = new EE();
     browser = new Browser();
-    browser.process = ee;
-    browser.process.kill = noop;
-    browser.process.stdout = ee;
-    browser.process.stderr = ee;
+    browser.process = _mockProcessObject();
   });
 
   it('should return undefined if no process is running', function stopShutdownNoProcess() {
