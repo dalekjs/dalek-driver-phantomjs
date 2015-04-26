@@ -6,7 +6,7 @@
   "scripts": {
     "format": "for f in {*/*.js,*.js}; do jsfmt --rewrite $f < $f; done && jscs --fix {*/*.js,*.js}",
     "lint": "ARRAY=($(glob-cli {*.js,*/*.js})); eslint ${ARRAY[*]} && jscs ${ARRAY[*]} && jsinspect ${ARRAY[*]}",
-    "pretest": "ARRAY=($(ls)); echo ${ARRAY[*]}",
+    "pretest": "set -A ARRAY $(ls); echo ${ARRAY[*]}",
     "test": "istanbul cover node_modules/mocha/bin/_mocha -- -R spec --timeout 15000 test/spec.*.js",
     "watch": "watch -p \"{*/*.js,*.js} \" -c \"npm test\"",
     "collect-coverage": "codeclimate < coverage/lcov.info"
