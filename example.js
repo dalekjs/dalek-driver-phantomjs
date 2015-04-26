@@ -19,14 +19,14 @@ var stop = function stop() {
   });
 };
 
-function success(data) {
-  console.log("success", JSON.stringify(data, null, 2));
+var success = function success(data) {
+  console.log('success', JSON.stringify(data, null, 2));
   return data;
-}
+};
 
-function error(data) {
-  console.log("error", JSON.stringify(data, null, 2));
-}
+var error = function error(data) {
+  console.log('error', JSON.stringify(data, null, 2));
+};
 
 var haveSomeFunWithWebDriver = function haveSomeFunWithWebDriver() {
   // open a website
@@ -36,8 +36,8 @@ var haveSomeFunWithWebDriver = function haveSomeFunWithWebDriver() {
     // stop WD and the driver
     .then(stop)
     // woopsi
-    .catch(function shutdownFailure(error) {
-      console.error('failure', error);
+    .catch(function shutdownFailure(errorShutdown) {
+      console.error('failure', errorShutdown);
       stop();
     })
     // promises…
