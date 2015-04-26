@@ -35,6 +35,7 @@
     "codeclimate-test-reporter": "^0.0.4",
     "eslint": "^0.20.0",
     "ghooks": "^0.3.2",
+    "glob-cli": "^1.0.0",
     "istanbul": "^0.3.13",
     "jscs": "^1.12.0",
     "jsfmt": "^0.4.1",
