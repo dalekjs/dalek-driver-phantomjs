@@ -1,15 +1,15 @@
 {
   "name": "dalek-driver-phantomjs",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Browser Driver for PhantomJS providing simple process control to start WebDriver instance",
   "main": "index.js",
   "scripts": {
-    "format": "for f in {*/*.js,*.js}; do jsfmt --rewrite $f < $f; done && jscs --fix {*/*.js,*.js}",
+    "format": "for f in $(glob-cli {*.js,*/*.js}); do jsfmt --rewrite $f < $f; done && jscs --fix $(glob-cli {*.js,*/*.js})",
     "lint": "eslint $(glob-cli {*.js,*/*.js}) && jscs $(glob-cli {*.js,*/*.js}) && jsinspect $(glob-cli {*.js,*/*.js})",
     "pretest": "npm run lint",
     "test": "istanbul cover node_modules/mocha/bin/_mocha -- -R spec --timeout 15000 test/spec.*.js",
-    "watch": "watch -p \"{*/*.js,*.js} \" -c \"npm test\"",
-    "collect-coverage": "codeclimate < coverage/lcov.info"
+    "watch": "watch -p \"$(glob-cli {*.js,*/*.js})\" -c \"npm test\"",
+    "collect-coverage": "codeclimate < coverage/lcov.info && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
   "config": {
     "ghooks": {
@@ -24,6 +24,10 @@
     "Rodney Rehm <mail+github@rodneyrehm.de> (http://rodneyrehm.de)"
   ],
   "license": "MIT",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/dalekjs/dalek-driver-phantomjs.git"
+  },
   "dependencies": {
     "expand-home-dir": "0.0.2",
     "phantomjs": "latest",
@@ -33,6 +37,7 @@
   "devDependencies": {
     "chai": "^2.2.0",
     "codeclimate-test-reporter": "^0.0.4",
+    "coveralls": "^2.11.2",
     "eslint": "^0.20.0",
     "ghooks": "^0.3.2",
     "glob-cli": "^1.0.0",
