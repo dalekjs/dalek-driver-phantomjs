@@ -120,7 +120,7 @@ describe('Start should never be called twice', function startCanNotBeCalledTwice
 });
 
 describe('#_findPort: No sufficiant port', function nonSufficientPort() {
-  var config = {portRange: [0, 0]};
+  var config = {portRange: [-1, -1]};
   var browser = new Browser(config);
   browser.start();
   it('should return error', function nonSufficientPortErrors() {
