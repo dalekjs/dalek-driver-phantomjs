@@ -8,6 +8,10 @@ Browser Driver for [PhantomJS 2](http://phantomjs.org/) providing an API to cont
 
 [![Coverage Status](https://coveralls.io/repos/dalekjs/dalek-driver-phantomjs/badge.svg?branch=master)](https://coveralls.io/r/dalekjs/dalek-driver-phantomjs?branch=master)
 
+[![Dependency Status](https://david-dm.org/dalekjs/dalek-driver-phantomjs.svg)](https://david-dm.org/dalekjs/dalek-driver-phantomjs)
+
+[![devDependency Status](https://david-dm.org/dalekjs/dalek-driver-phantomjs/dev-status.svg)](https://david-dm.org/dalekjs/dalek-driver-phantomjs#info=devDependencies)
+
 ## Browser / Driver Documentation
 
 * [PhantomJS Command Line Interface](http://phantomjs.org/api/command-line.html)
