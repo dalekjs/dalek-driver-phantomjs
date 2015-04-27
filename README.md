@@ -6,7 +6,7 @@ Browser Driver for [PhantomJS 2](http://phantomjs.org/) providing an API to cont
 
 [![Code Climate](https://codeclimate.com/github/dalekjs/dalek-driver-phantomjs/badges/gpa.svg)](https://codeclimate.com/github/dalekjs/dalek-driver-phantomjs)
 
-[![Test Coverage](https://codeclimate.com/github/dalekjs/dalek-driver-phantomjs/badges/coverage.svg)](https://codeclimate.com/github/dalekjs/dalek-driver-phantomjs)
+[![Coverage Status](https://coveralls.io/repos/dalekjs/dalek-driver-phantomjs/badge.svg?branch=master)](https://coveralls.io/r/dalekjs/dalek-driver-phantomjs?branch=master)
 
 ## Browser / Driver Documentation
 
