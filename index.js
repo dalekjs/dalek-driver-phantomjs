@@ -4,7 +4,7 @@ var spawn = require('child_process').spawn;
 var portscanner = require('portscanner');
 var expandHomeDir = require('expand-home-dir');
 var phantomPath = require('phantomjs').path;
-var capability = require('./capability.js');
+var behaviors = require('./behaviors.js');
 
 var defaults = {
   // name of the browser instance
@@ -20,24 +20,27 @@ var defaults = {
 var noop = function noop() {};
 var Browser = function Browser(options) {
   this.options = options || {};
-  Object.keys(defaults).forEach(function _mergeDefaultOptions(key) {
+  Object.keys(Browser.defaults).forEach(function _mergeDefaultOptions(key) {
     if (this.options[key] === undefined) {
-      this.options[key] = defaults[key];
+      this.options[key] = Browser.defaults[key];
     }
   }, this);
 
   if (!Array.isArray(this.options.portRange)) {
     throw new TypeError('option "portRange" must be a range: [min, max]');
   }
+
   if (!Array.isArray(this.options.args)) {
     this.options.args = [this.options.args];
   }
+
   if (this.options.binary !== phantomPath) {
     this.options.binary = expandHomeDir(this.options.binary);
   }
 };
 
-Browser.prototype.capability = capability;
+Browser.defaults = defaults;
+Browser.prototype.behavior = behaviors;
 
 Browser.prototype.start = function start(success, error, failure) {
   if (this.process) {
@@ -58,6 +61,7 @@ Browser.prototype.start = function start(success, error, failure) {
 
 Browser.prototype.stop = function stop(callback) {
   if (!this.process) {
+    callback && callback();
     return;
   }
   this.process.removeListener('error', this._handleProcessFailure);
@@ -125,41 +129,58 @@ Browser.prototype._watchStartupOut = function _watchStartupOut(success, error, d
   var _data = String(data);
   if (_data.indexOf('GhostDriver - Main - running') !== -1) {
     this._stopListening();
-    success({
+    var endpoints = {
       wd: {
         browserName: this.options.browserName,
         host: this.options.host,
         port: this.options.port,
       }
-    });
+    };
+
+    success(endpoints, this.options);
   } else if (_data.indexOf('Could not start Ghost Driver') !== -1) {
     this._stopListening();
     this.kill();
-    error(new Error('Could not start Ghost Driver'));
+    error(
+      new Error('Could not start Ghost Driver'),
+      this.options
+    );
   }
 };
 
 Browser.prototype._watchStartupErr = function _watchStartupErr(success, error, data) {
   this._stopListening();
   this.kill();
-  error(new Error('Process error: ' + String(data)));
+  error(
+    new Error('Process error: ' + String(data)),
+    this.options
+  );
 };
 
 Browser.prototype._handleStartupClose = function _handleStartupClose(success, error, code) {
   this._stopListening();
   this.kill();
-  error(new Error('Process closed with code: ' + code));
+  error(
+    new Error('Process closed with code: ' + code),
+    this.options
+  );
 };
 
 Browser.prototype._handleStartupError = function _handleStartupError(success, error, err) {
   this._stopListening();
   this.kill();
-  error(new Error('Unable to start "' + this.options.binary + '" (' + err + ')'));
+  error(
+    new Error('Unable to start "' + this.options.binary + '" (' + err + ')'),
+    this.options
+  );
 };
 
 Browser.prototype._handleProcessFailure = function _handleProcessFailure(failure, err) {
   this.kill();
-  failure(new Error('Process quit unexpectedly "' + this.options.binary + '" (' + err + ')'));
+  failure(
+    new Error('Process quit unexpectedly "' + this.options.binary + '" (' + err + ')'),
+    this.options
+  );
 };
 
 module.exports = Browser;
