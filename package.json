@@ -38,6 +38,7 @@
     "chai": "^2.2.0",
     "codeclimate-test-reporter": "^0.0.4",
     "coveralls": "^2.11.2",
+    "dalek-driver": "git://github.com/dalekjs/dalek-driver.git#0.1.0",
     "eslint": "^0.20.0",
     "ghooks": "^0.3.2",
     "glob-cli": "^1.0.0",
