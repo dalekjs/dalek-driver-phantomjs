@@ -1,7 +1,7 @@
 {
   "name": "dalek-driver-phantomjs",
   "version": "0.1.0",
-  "description": "Browser Driver for PhantomJS providing simple process control to start WebDriver instance",
+  "description": "Browser Driver for PhantomJS using GhostDriver providing an API to control the Browser/WebDriver process",
   "main": "index.js",
   "scripts": {
     "format": "for f in $(glob-cli {*.js,*/*.js}); do jsfmt --rewrite $f < $f; done && jscs --fix $(glob-cli {*.js,*/*.js})",

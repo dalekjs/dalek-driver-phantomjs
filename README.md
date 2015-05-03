@@ -1,6 +1,6 @@
 # dalek-driver-phantomjs - Browser/WebDriver process control
 
-Browser Driver for [PhantomJS 2](http://phantomjs.org/) providing an API to control the Browser/WebDriver process, buggyfill the browser's WebDriver capabilities, as well as provide an easy means to install the necessary binaries etc.
+Browser Driver for [PhantomJS](http://phantomjs.org/) using [GhostDriver](https://github.com/detro/ghostdriver) providing an API to control the Browser/WebDriver process.
 
 [![Build Status](https://travis-ci.org/dalekjs/dalek-driver-phantomjs.svg?branch=master)](https://travis-ci.org/dalekjs/dalek-driver-phantomjs)
 
@@ -14,7 +14,8 @@ Browser Driver for [PhantomJS 2](http://phantomjs.org/) providing an API to cont
 
 ## Browser / Driver Documentation
 
-* [PhantomJS Command Line Interface](http://phantomjs.org/api/command-line.html)
+* [Command Line Interface](http://phantomjs.org/api/command-line.html)
+* [WebDriver Capabilities](https://github.com/detro/ghostdriver#what-extra-webdriver-capabilities-ghostdriver-offers)
 
 ---
 
