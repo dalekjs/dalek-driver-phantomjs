@@ -6,7 +6,7 @@ chai.config.includeStack = true;
 var expect = chai.expect;
 
 // helper
-var phantomPath = require('phantomjs').path;
+var phantomPath = require('phantomjs2').path;
 var Events = require('events');
 var http = require('http');
 

@@ -3,7 +3,7 @@
 var spawn = require('child_process').spawn;
 var portscanner = require('portscanner');
 var expandHomeDir = require('expand-home-dir');
-var phantomPath = require('phantomjs').path;
+var phantomPath = require('phantomjs2').path;
 var behaviors = require('./behaviors.js');
 
 var defaults = {

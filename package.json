@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "expand-home-dir": "0.0.2",
-    "phantomjs": "latest",
+    "phantomjs2": "^2.0.2",
     "portfinder": "^0.4.0",
     "portscanner": "^1.0.0"
   },
