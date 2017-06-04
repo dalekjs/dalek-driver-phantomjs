@@ -1,3 +1,11 @@
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
+
+# DalekJS is not maintained any longer :cry:
+
+We recommend [TestCafé](http://devexpress.github.io/testcafe/) for your automated browser testing needs.
+
+---
+
 # dalek-driver-phantomjs - Browser/WebDriver process control
 
 Browser Driver for [PhantomJS](http://phantomjs.org/) using [GhostDriver](https://github.com/detro/ghostdriver) providing an API to control the Browser/WebDriver process.
